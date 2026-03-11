@@ -2,20 +2,22 @@
 #include <iomanip>
 
 /*
-Change the default constructor. 
+x Change the default constructor. 
     Instead of it assigning null values, we want it to randomly select 3 or 4 legs, 
     and to randomly select prices (including dollars and cents) from $100.00 to $999.99.
 
-    Change the parameter constructor. 
+x Change the parameter constructor. 
     Now it has just one parameter, the number of legs. 
     Make it have two parameters: number of legs, and an array of 3 doubles (the prices).
 
-    In the third code block (starting at line 67), amend this such that 
+_ In the third code block (starting at line 67), amend this such that 
     the default constructors are used to populate these objects.
 */
 
 using namespace std;
 const int SIZE = 3;
+const int MINLEGS = 3, MAXLEGS = 4;
+const int MINPRICE = 10000, MAXPRICE = 99999;
 
 class Chair {
 private:
@@ -25,15 +27,16 @@ public:
     // constructors
     Chair() {
         prices = new double[SIZE];
-        legs = 0;
+        legs = (rand() % (MAXLEGS-MINLEGS+1) + MINLEGS); // randomly assign 3 or 4 legs
         for (int i = 0; i < SIZE; i++)
-            prices[i] = 0;
+            // randomly assign prices $100.00 to $999.99
+            prices[i] = (rand() % (MAXPRICE-MINPRICE+1) + MINPRICE) / (double) 100; 
     }
-    Chair(int l) {
-        prices = new double[SIZE];
+    Chair(int l, double* ps) {
         legs = l;
-        for (int i = 0; i < SIZE; i++)
-            prices[i] = 0;
+
+        // the array needs to already exist, and the pricer pointer will point to it
+        prices = ps;
     }
 
     // setters and getters
@@ -71,7 +74,7 @@ int main() {
     chairPtr->print();
 
     //creating dynamic chair object with constructor
-    Chair *livingChair = new Chair(3);
+    Chair *livingChair = new Chair(); // deleted the argument
     livingChair->setPrices(525.25, 434.34, 252.52);
     livingChair->print();
     delete livingChair;
