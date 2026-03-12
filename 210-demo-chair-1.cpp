@@ -1,3 +1,5 @@
+// COMSC-210 | Lab 20 | Gillian Rhett
+
 #include <iostream>
 #include <iomanip>
 
@@ -10,7 +12,7 @@ x Change the parameter constructor.
     Now it has just one parameter, the number of legs. 
     Make it have two parameters: number of legs, and an array of 3 doubles (the prices).
 
-_ In the third code block (starting at line 67), amend this such that 
+x In the third code block (starting at line 67), amend this such that 
     the default constructors are used to populate these objects.
 */
 
@@ -35,7 +37,7 @@ public:
     Chair(int l, double* ps) {
         legs = l;
 
-        // the array needs to already exist, and the pricer pointer will point to it
+        // the array needs to already exist, and the price pointer will point to it
         prices = ps;
     }
 
@@ -73,12 +75,25 @@ int main() {
     chairPtr->setPrices(121.21, 232.32, 414.14);
     chairPtr->print();
 
-    //creating dynamic chair object with constructor
-    Chair *livingChair = new Chair(); // deleted the argument
+    //creating dynamic chair object with default constructor
+    Chair *livingChair = new Chair;
     livingChair->setPrices(525.25, 434.34, 252.52);
     livingChair->print();
     delete livingChair;
     livingChair = nullptr;
+
+    //creating another dynamic chair object with the modified parameter constructor
+    // first create the array of prices
+    double* tempArr = new double[SIZE];
+    tempArr[0] = 250.00;
+    tempArr[1] = 400.00;
+    tempArr[2] = 120.00;
+    Chair *deckChair = new Chair(4, tempArr);
+    cout << "== my chair using 2 parameter constructor ==" << endl;
+    deckChair->print();
+    delete deckChair;
+    deckChair = nullptr;
+    delete[] tempArr;
 
     //creating dynamic array of chair objects
     Chair *collection = new Chair[SIZE];
@@ -88,6 +103,7 @@ int main() {
     collection[1].setPrices(484.84, 959.59, 868.68);
     collection[2].setLegs(4);
     collection[2].setPrices(626.26, 515.15, 757.57);
+    cout << "\n== Chairs in the array ==" << endl;
     for (int i = 0; i < SIZE; i++)
         collection[i].print();
     
